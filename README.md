@@ -310,3 +310,72 @@ With what we know about closures we can capture variables
 	counter1()
 	counter1()
 	counter1()
+
+# GCD (Grand Central Dispatch)
+
+GCD makes asynchronous (concurrent) programming easier by hiding threads from the developer. You provide closures to a queue and GCD will run them for you.
+
+There is a synchronous queue (stuff is run in order) and an asynchronous (concurrent) queue (stuff isn't run in order) type
+
+Each queue will run on its own thread and will not block each other.
+
+GCD is written in C so the functions to access GCD resources look like C:
+
+### Main Queue
+There is a main queue (don't block this). Most of the time the network will block this and the UI will not be able to update, but other things computationally expensive can cause this too (large images, applying filters to a video, etc.) 
+
+Get the main queue (for the UI)
+
+	dispatch_get_main_queue()
+
+### Global Queues (4 queues)
+
+The global queues:
+
+	dispatch_get_global_queue()
+
+	QOS_CLASS_USER_INTERACTIVE		// top priority
+    QOS_CLASS_USER_INITIATED		// regular priority
+    QOS_CLASS_BACKGROUND			// low priority
+    QOS_CLASS_UTILITY				// lowest priority
+
+### Putting closures on the queue
+
+	dispatch_async()  // accepts a queue and a closure
+
+### Creating queues
+
+represents a queue
+
+	dispatch_queue_t
+	
+creates a serial queue, but we won't b/c iOS provides a bunch already
+
+	dispatch_queue_create("new_queue_name", DISPATCH_QUEUE_SERIAL)
+	dispatch_queue_create("new_queue_name", nil)
+
+creates a concurrent queue
+
+	dispatch_queue_create("new_queue_name", DISPATCH_QUEUE_CONCURRENT)
+
+### Another example:
+
+	// put something on the highest priority global queue
+	// this will print 'tac' first and then print 'tic' in the very near future
+	let q = dispatch_get_global_queue(QOS_CLASS_USER_INTERRACTIVE, 0)
+
+	dispatch_async(q) { () -> Void in
+	    print("tic")
+	}
+	print("tac")
+
+### Thread Safety
+
+When a framework can run in the background it is said to be "thread-safe".  Frameworks that are not thread-safe and can only run in the main queue:
+
+* core data
+* uikit 
+  * although some parts of this are thread safe. ex. UIKit
+  * "if it ends in View, it belongs on the main queue"
+
+It's a good idea to make sure all of your completion handlers run in the main queue, since a completion handler is nearly always updating the UI.
