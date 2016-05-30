@@ -385,9 +385,9 @@ It's a good idea to make sure all of your completion handlers run in the main qu
 
 #### NSUserDefaults (PickYourPitch app example)
 * can store stuff in a plist
-* following datatypes: Data, String, Number, Data, Array, Dictionary
+* following datatypes: Data, String, Number, Array, Dictionary
 * can only store < 1MB
-* there is a db that store:
+* there is a db that stores:
   * system-wide defaults
   * language defaults
   * app-specific defaults
@@ -410,7 +410,7 @@ Resetting the data
   * to make it look like this the the first time we have ever run "this" app
   * clears out the app-specific data
 
-In the AppDelegate put a call to something like the first function within the seconds function to initialize the app-specific defaults so you don't clutter up the viewDidLoad in the controller
+In the AppDelegate put a call to something like the first function (below) within the second function to initialize the app-specific defaults so you don't clutter up the viewDidLoad in the controller
 
     checkIfFirstLaunch() 
 
