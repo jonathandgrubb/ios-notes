@@ -470,7 +470,7 @@ Model Layer (Core Data Stack):
 * Managed Object - classes that save stuff to the DB file (subclass of NSManagedObject) example: character in a game
 * Context        - where objects live and operations take place (NSManagedObjectContext)
 * Fetch Request  - what's living inside the Context? performs searches or 'fetch' requests
-* Stores         - where Managed Objects are stored to disk (XML, bnary, SQLite)
+* Stores         - where Managed Objects are stored to disk (XML, binary, SQLite)
 * Store Coordinator - allows you to have multiple stores
 
 Controller Layer:
