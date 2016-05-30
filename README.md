@@ -543,3 +543,15 @@ Migrations
         } catch {
             print("unable to add store at \(dbURL)")
         }
+
+Concurrency (CoolNotes Lesson6)
+
+CORE Data actually is thread safe. The queue/thread that the context is created on is the only queue/thread is can be used on, though. If you have a lot of data to load in the background, do it in a background thread. The problem is communicating these changes to the main queue that is able to change the UI. There is now a way to notify the main queue when the parent/child relationship. 
+
+child (background queue - get data) -> parent (main queue - update UI and Save to model)
+
+If a lot of data has been loaded in the background (via presumably a web api) we will also want to save it to the model. This can be time intensive, so we might want to do the saving on yet another queue and make this a parent of the parent.
+
+child (background queue - get data) -> parent (main queue - update UI) -> persist (background queue - Save to model)
+
+See the sample project for details
