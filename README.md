@@ -554,4 +554,4 @@ If a lot of data has been loaded in the background (via presumably a web api) we
 
 child (background queue - get data) -> parent (main queue - update UI) -> persist (background queue - Save to model)
 
-See the sample project for details
+See the sample project for details!
